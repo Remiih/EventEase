@@ -1,14 +1,21 @@
+.top-row {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    min-height: 3.5rem;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.top-row {
-    min-height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
-}
-
 .navbar-brand {
     font-size: 1.1rem;
+}
+
+.app-title {
+    font-weight: bold;
 }
 
 .bi {
