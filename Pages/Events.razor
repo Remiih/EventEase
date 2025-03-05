@@ -4,6 +4,8 @@
 
 <h1>Event List</h1>
 
+<button @onclick="RefreshEvents" class="btn btn-primary">Refresh</button>
+
 <div class="row">
     @foreach (var eventItem in Eventss)
     {
@@ -19,12 +21,10 @@
     protected override void OnInitialized()
     {
         // Replace with your actual data loading logic
-        Eventss = new List<Event>
-{
-new Event { Id = 1, Title = "Event One", Description = "Stinki event", Date =
-DateTime.Now.AddDays(7), Location = "Online" },
-new Event { Id = 2, Title = "Event Two", Description = "Learn about the new stinki event.", Date =
-DateTime.Now.AddDays(14), Location = "Online" }
-};
+    }
+
+    protected void RefreshEvents()
+    {
+        OnInitialized();
     }
 }
