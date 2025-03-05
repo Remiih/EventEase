@@ -4,7 +4,7 @@
 <h1>Event List</h1>
 
 <div class="row">
-    @foreach (var eventItem in Events)
+    @foreach (var eventItem in Eventss)
     {
         <div class="col-md-6">
             <EventCard Event="eventItem" />
@@ -13,15 +13,17 @@
 </div>
 
 @code {
-    private List<Event> Events = new List<Event>();
+    private List<Event> Eventss = new List<Event>();
 
     protected override void OnInitialized()
     {
         // Replace with your actual data loading logic
-        Events = new List<Event>
-        {
-            new Event { Id = 1, Title = "Blazor Conference", Description = "Join us for the premier Blazor event!", Date = DateTime.Now.AddDays(7), Location = "Online" },
-            new Event { Id = 2, Title = "Webinar: .NET 8", Description = "Learn about the new features in .NET 8.", Date = DateTime.Now.AddDays(14), Location = "Online" }
-        };
+        Eventss = new List<Event>
+{
+new Event { Id = 1, Title = "Blazor Conference", Description = "Join us for the premier Blazor event!", Date =
+DateTime.Now.AddDays(7), Location = "Online" },
+new Event { Id = 2, Title = "Webinar: .NET 8", Description = "Learn about the new features in .NET 8.", Date =
+DateTime.Now.AddDays(14), Location = "Online" }
+};
     }
 }
