@@ -1,19 +1,11 @@
 @using EventEase.Models
 
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <img src="@Event.ImageUrl" class="img-fluid rounded-start" alt="@Event.Title">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">@Event.Title</h5>
-                <p class="card-text">@Event.Description</p>
-                <p class="card-text"><small class="text-muted">@Event.Date.ToShortDateString() - @Event.Location</small>
-                </p>
-                <a href="/events/details/@Event.Id" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Event.Title</h5>
+        <p class="card-text">@Event.Description</p>
+        <p class="card-text"><small class="text-muted">@Event.Date.ToShortDateString() - @Event.Location</small></p>
+        <a href="/events/details/@Event.Id" class="btn btn-primary">Learn More</a>
     </div>
 </div>
 
