@@ -1,5 +1,6 @@
 @page "/events"
 @using EventEase.Models
+@using EventEase.Shared
 
 <h1>Event List</h1>
 
@@ -20,9 +21,9 @@
         // Replace with your actual data loading logic
         Eventss = new List<Event>
 {
-new Event { Id = 1, Title = "Blazor Conference", Description = "Join us for the premier Blazor event!", Date =
+new Event { Id = 1, Title = "Event One", Description = "Stinki event", Date =
 DateTime.Now.AddDays(7), Location = "Online" },
-new Event { Id = 2, Title = "Webinar: .NET 8", Description = "Learn about the new features in .NET 8.", Date =
+new Event { Id = 2, Title = "Event Two", Description = "Learn about the new stinki event.", Date =
 DateTime.Now.AddDays(14), Location = "Online" }
 };
     }
