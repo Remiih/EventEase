@@ -18,13 +18,32 @@
 @code {
     private List<Event> Eventss = new List<Event>();
 
-    protected override void OnInitialized()
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        // Replace with your actual data loading logic
+        await LoadEvents();
     }
 
-    protected void RefreshEvents()
+    protected async Task RefreshEvents()
     {
-        OnInitialized();
+        await LoadEvents();
     }
+
+    private async Task LoadEvents()
+    {
+        var eventsJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "events");
+        if (!string.IsNullOrEmpty(eventsJson))
+        {
+            Eventss = System.Text.Json.JsonSerializer.Deserialize<List<Event>>(eventsJson);
+        }
+        else
+        {
+            Eventss = new List<Event>();
+        }
+    }
+
+
 }
