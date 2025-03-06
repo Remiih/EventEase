@@ -5,11 +5,87 @@
         <h5 class="card-title">@Event.Title</h5>
         <p class="card-text">@Event.Description</p>
         <p class="card-text"><small class="text-muted">@Event.Date.ToShortDateString() - @Event.Location</small></p>
-        <a href="/events/details/@Event.Id" class="btn btn-primary">Learn More</a>
+        <p class="card-text">Participants: @participants</p>
+        <button class="btn btn-primary" @onclick="ShowRegistrationForm">Register</button>
+        <a href="/events/details/@Event.Id" class="btn btn-secondary">Learn More</a>
     </div>
 </div>
+
+@if (showModal)
+{
+    <!-- Registration Form Modal -->
+    <div class="modal fade show" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" style="display:block;" aria-modal="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrationModalLabel">Event Registration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="CloseRegistrationForm">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@registrationModel" OnValidSubmit="@HandleRegistration">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <InputText id="name" class="form-control" @bind-Value="registrationModel.Name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <InputText id="email" class="form-control" @bind-Value="registrationModel.Email" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+}
 
 @code {
     [Parameter]
     public Event? Event { get; set; }
+
+    private int participants;
+    private bool showModal = false;
+
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = "Name is required.")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        public string? Email { get; set; }
+    }
+
+    private RegistrationModel registrationModel = new();
+
+    protected override void OnInitialized()
+    {
+        participants = Event?.Participants ?? 0;
+    }
+
+    private void ShowRegistrationForm()
+    {
+        showModal = true;
+        StateHasChanged();
+    }
+
+    private void CloseRegistrationForm()
+    {
+        showModal = false;
+        StateHasChanged();
+    }
+
+    private void HandleRegistration()
+    {
+        participants++;
+        showModal = false;
+        // Ideally, here you'd call a service to update the event's participant count in the database.
+        // For now, we're just updating the local count.
+        StateHasChanged();
+    }
 }
