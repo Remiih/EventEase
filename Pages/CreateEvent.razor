@@ -37,9 +37,36 @@
 @code {
     private Event eventModel = new Event();
 
-    private void HandleValidSubmit()
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private async Task HandleValidSubmit()
     {
-        // Handle valid submission
-        Console.WriteLine("valid submit");
+        // Get existing events from local storage
+        var existingEventsJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "events");
+        List<Event> existingEvents = new List<Event>();
+
+        if (!string.IsNullOrEmpty(existingEventsJson))
+        {
+            existingEvents = System.Text.Json.JsonSerializer.Deserialize<List<Event>>(existingEventsJson);
+        }
+
+        // Add the new event
+        eventModel.Id = existingEvents.Count > 0 ? existingEvents.Max(e => e.Id) + 1 : 1; // Generate a unique ID
+        existingEvents.Add(eventModel);
+
+        // Serialize and save back to local storage
+        var updatedEventsJson = System.Text.Json.JsonSerializer.Serialize(existingEvents);
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "events", updatedEventsJson);
+
+        // Clear the form
+        eventModel = new Event();
+
+        // Optionally, navigate back to the events list
+        NavigationManager.NavigateTo("/events");
     }
 }

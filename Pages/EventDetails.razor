@@ -1,0 +1,59 @@
+@page "/events/details/{EventId:int}"
+@using EventEase.Models
+
+<h1>Event Details</h1>
+
+
+
+@if (Event != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Event.Title</h5>
+            <p class="card-text">@Event.Description</p>
+            <p class="card-text">
+                <strong>Date:</strong> @Event.Date.ToShortDateString()
+            </p>
+            <p class="card-text">
+                <strong>Location:</strong> @Event.Location
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <p>Event not found.</p>
+}
+<button class="btn btn-secondary" @onclick="NavigateBack">Back to Events</button>
+
+@code {
+    [Parameter]
+    public int EventId { get; set; }
+
+    private Event? Event { get; set; }
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEvent();
+    }
+
+    private async Task LoadEvent()
+    {
+        var eventsJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "events");
+        if (!string.IsNullOrEmpty(eventsJson))
+        {
+            var events = System.Text.Json.JsonSerializer.Deserialize<List<Event>>(eventsJson);
+            Event = events?.FirstOrDefault(e => e.Id == EventId);
+        }
+    }
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/events");
+    }
+}
