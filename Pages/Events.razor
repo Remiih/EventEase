@@ -18,7 +18,6 @@
 @code {
     private List<Event> Eventss = new List<Event>();
 
-
     [Inject]
     private IJSRuntime JSRuntime { get; set; }
 
@@ -34,16 +33,23 @@
 
     private async Task LoadEvents()
     {
-        var eventsJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "events");
-        if (!string.IsNullOrEmpty(eventsJson))
+        try
         {
-            Eventss = System.Text.Json.JsonSerializer.Deserialize<List<Event>>(eventsJson);
+            var eventsJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "events");
+            if (!string.IsNullOrEmpty(eventsJson))
+            {
+                Eventss = System.Text.Json.JsonSerializer.Deserialize<List<Event>>(eventsJson);
+            }
+            else
+            {
+                Eventss = new List<Event>();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Eventss = new List<Event>();
+            Console.WriteLine($"Error loading events: {ex.Message}");
+            // Optionally display an error message to the user
+            Eventss = new List<Event>(); // Ensure Eventss is initialized even on error
         }
     }
-
-
 }

@@ -1,0 +1,20 @@
+/bin
+/obj
+.aider*
+ *.suo
+ *.user
+ *.userosscache
+ *.sln.docstates
+ *.cache
+ *.nuproj.bak
+ *.nupkg
+ *.swp
+ /publish
+ .DS_Store
+ Build/
+ Debug/
+ Release/
+ _ReSharper*/
+ EventEase.sln.DotSettings
+ EventEase.sln.DotSettings.user
+ .vs/
