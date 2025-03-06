@@ -19,9 +19,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registrationModalLabel">Event Registration</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="CloseRegistrationForm">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="CloseRegistrationForm"></button>
                 </div>
                 <div class="modal-body">
                     <EditForm Model="@registrationModel" OnValidSubmit="@HandleRegistration">
