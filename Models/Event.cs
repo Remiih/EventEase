@@ -16,5 +16,7 @@ namespace EventEase.Models
 
         [Required(ErrorMessage = "Date is required.")]
         public DateTime Date { get; set; }
+
+        public int Participants { get; set; }
     }
 }
